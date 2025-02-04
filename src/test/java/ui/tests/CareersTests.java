@@ -55,4 +55,13 @@ public class CareersTests extends TestBase {
                 .checkClearButtonDisabled()
                 .verifyFormCleared();
     }
+
+    @Test
+    @DisplayName("Filter by Search job input should update jobs count")
+    void filteringJobsBySearchJobInputShouldUpdateJobsCountTest() {
+        var jobsCountBeforeFiltering = careersPage.getStartJobCount();
+
+        careersPage.searchAnyJobWithNonEmptyResults()
+                .checkJobResultsCountShouldBeLessThan(jobsCountBeforeFiltering);
+    }
 }

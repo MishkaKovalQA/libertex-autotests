@@ -6,6 +6,7 @@ import com.codeborne.selenide.ex.UIAssertionError;
 import io.qameta.allure.Step;
 import lombok.extern.slf4j.Slf4j;
 import ui.components.CookieConsentComponent;
+import ui.elements.Button;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -21,9 +22,10 @@ public class CareersPage {
                                      jobName = $$("[data-id=job-item]");
 
     private final SelenideElement searchJobInput = $("input[data-ui=search-jobs]"),
-                                  clearFiltersButton = $("[data-ui=clear-filters]"),
                                   locationFilterInput = $("#locations-filter_input"),
                                   locationFilterListbox = $("#locations-filter_listbox");
+
+    private final Button clearFiltersButton = new Button("clearFilters", $("[data-ui=clear-filters]"));
 
     @Step("Open Careers page")
     public CareersPage openCareersPage() {
@@ -74,7 +76,7 @@ public class CareersPage {
 
     @Step("Clear filters")
     public CareersPage clearFilters() {
-        clearFiltersButton.shouldBe(visible).click();
+        clearFiltersButton.isVisible(true).click();
         verifyClearFiltersButtonNotVisible();
 
         return this;
@@ -82,7 +84,7 @@ public class CareersPage {
 
     @Step("Verify 'Clear Filters' button is not visible")
     public CareersPage verifyClearFiltersButtonNotVisible() {
-        clearFiltersButton.shouldNotBe(visible);
+        clearFiltersButton.isVisible(false);
 
         return this;
     }

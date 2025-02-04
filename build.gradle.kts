@@ -58,11 +58,11 @@ tasks.withType<Test> {
 
     ignoreFailures = true
     systemProperties(getSystemPropertiesAsMap())
-/*    systemProperty("junit.jupiter.execution.parallel.enabled", "true")
+    systemProperty("junit.jupiter.execution.parallel.enabled", "true")
     systemProperty("junit.jupiter.execution.parallel.mode.default", "concurrent")
     systemProperty("junit.jupiter.execution.parallel.mode.classes.default", "concurrent")
     systemProperty("junit.jupiter.execution.parallel.config.strategy", "fixed")
-    systemProperty("junit.jupiter.execution.parallel.config.fixed.parallelism", "5")*/
+    systemProperty("junit.jupiter.execution.parallel.config.fixed.parallelism", "5")
 
     testLogging {
         events("passed", "skipped", "failed")

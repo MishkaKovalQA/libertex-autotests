@@ -15,12 +15,12 @@ public class MainPage {
 
     public static final String TITLE = "Online Forex Trading | Trade For More | Trusted, Regulated Broker - Libertex";
 
-    private final SelenideElement logo = $(".header__logo");
-    private final SelenideElement loginButton = $(".nav-menu__link-login");
-    private final SelenideElement signUpButton = $(".nav-menu__link-register");
-    private final SelenideElement languageSwitcher = $(".nav-menu__link--languages");
-    private final SelenideElement assetsWidget = $(".assets-widget-block__wrapper");
-    private final SelenideElement platformsMenu = $("#header").$(byText("Platforms"));
+    private final SelenideElement logo = $(".header__logo"),
+                                  loginButton = $(".nav-menu__link-login"),
+                                  signUpButton = $(".nav-menu__link-register"),
+                                  languageSwitcher = $(".nav-menu__link--languages"),
+                                  assetsWidget = $(".assets-widget-block__wrapper"),
+                                  platformsMenu = $("#header").$(byText("Platforms"));
 
     @Step("Open main page")
     public MainPage openMainPage() {

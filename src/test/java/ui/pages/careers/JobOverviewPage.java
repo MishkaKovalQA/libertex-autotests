@@ -12,9 +12,9 @@ public class JobOverviewPage {
 
     private final List<String> jobOverviewElements = List.of("Description", "Requirements", "Benefits");
 
-    private final SelenideElement careerPageContent = $("[data-ui=careers-page-content]");
-    private final SelenideElement jobTitle = $("[data-ui=job-title]");
-    private final SelenideElement applicationFormTab = $("[data-ui=application-form-tab]");
+    private final SelenideElement careerPageContent = $("[data-ui=careers-page-content]"),
+                                  jobTitle = $("[data-ui=job-title]"),
+                                  applicationFormTab = $("[data-ui=application-form-tab]");
 
     @Step("Verify job overview contains required elements")
     public JobOverviewPage verifyJobOverviewElements() {

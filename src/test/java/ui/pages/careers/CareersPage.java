@@ -17,12 +17,13 @@ import static com.codeborne.selenide.Selenide.*;
 @Slf4j
 public class CareersPage {
 
-    private final SelenideElement searchJobInput = $("input[data-ui=search-jobs]");
-    private final ElementsCollection jobResults = $$("li[data-ui=job-opening]");
-    private final ElementsCollection jobName = $$("[data-id=job-item]");
-    private final SelenideElement clearFiltersButton = $("[data-ui=clear-filters]");
-    private final SelenideElement locationFilterInput = $("#locations-filter_input");
-    private final SelenideElement locationFilterListbox = $("#locations-filter_listbox");
+    private final ElementsCollection jobResults = $$("li[data-ui=job-opening]"),
+                                     jobName = $$("[data-id=job-item]");
+
+    private final SelenideElement searchJobInput = $("input[data-ui=search-jobs]"),
+                                  clearFiltersButton = $("[data-ui=clear-filters]"),
+                                  locationFilterInput = $("#locations-filter_input"),
+                                  locationFilterListbox = $("#locations-filter_listbox");
 
     @Step("Open Careers page")
     public CareersPage openCareersPage() {

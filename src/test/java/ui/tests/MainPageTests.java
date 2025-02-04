@@ -1,13 +1,12 @@
 package ui.tests;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.List;
 
-import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static ui.constants.BrowserErrorLevel.ERROR;
 import static ui.helpers.Utils.fetchBrowserLogs;
@@ -15,26 +14,14 @@ import static ui.helpers.Utils.fetchBrowserLogs;
 public class MainPageTests extends TestBase {
 
     @Test
-    @DisplayName("Check the title and logo of main page")
-    void titleTest() {
+    @DisplayName("Check all main page elements (logo, buttons, language switcher, etc.)")
+    void mainPageShouldHaveCorrectMainElementsTest() {
         mainPage.openMainPage()
                 .checkLogo()
-                .checkTheTitle();
-    }
-
-    @Test
-    @DisplayName("Check that login and sign up buttons are correct")
-    void signUpAndLoginButtonsShouldBeVisibleTest() {
-        mainPage.openMainPage()
+                .checkTitle()
                 .checkSignUpButton()
-                .checkLoginButton();
-    }
-
-    @Test
-    @DisplayName("Check that there is no errors on the main page")
-    void consoleShouldNotHaveErrorsTest() {
-        mainPage.openMainPage();
-        $(".assets-widget-block").shouldBe(visible);
+                .checkLoginButton()
+                .checkLanguageSwitcher();
 
         assertThat(fetchBrowserLogs())
                 .as("Browser logs doesn't contain any errors")
@@ -51,9 +38,17 @@ public class MainPageTests extends TestBase {
                 .checkItemsVisible(platformItems);
     }
 
-    @AfterEach
-    void tearDown() {
-        clearBrowserCookies();
-        clearBrowserLocalStorage();
+    @ParameterizedTest
+    @DisplayName("Check change language via URL for assets widget")
+    @CsvSource({
+            "en, Trading Assets",
+            "es, Operación con activos",
+            "vi, Tài sản giao dịch",
+            "cn-tr, 交易資產",
+            "th, สินทรัพย์การเทรด"
+    })
+    void checkTranslationForAssetsWhenChangeUrlTest(String language, String expectedText) {
+        mainPage.openMainPage(language)
+                .checkAssetsWidgetText(expectedText);
     }
 }

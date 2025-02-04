@@ -57,12 +57,11 @@ public class MainPage extends Page {
         return this;
     }
 
-    public SelenideElement getAssetsWidget() {
-        return assetsWidget;
-    }
+    @Step("Check language switcher is visible")
+    public MainPage checkLanguageSwitcher() {
+        languageSwitcher.shouldBe(visible);
 
-    public SelenideElement getLanguageSwitcher() {
-        return languageSwitcher;
+        return this;
     }
 
     @Step("Open platforms submenu")
@@ -72,7 +71,16 @@ public class MainPage extends Page {
     }
 
     @Step("Check that main page has the title = " + TITLE)
-    public void checkTheTitle() {
+    public MainPage checkTitle() {
         checkTheTitle(TITLE);
+
+        return this;
+    }
+
+    @Step("Check text for assets widget")
+    public MainPage checkAssetsWidgetText(String expectedText) {
+        assetsWidget.shouldHave(text(expectedText));
+
+        return this;
     }
 }

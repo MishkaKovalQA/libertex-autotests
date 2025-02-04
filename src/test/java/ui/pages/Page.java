@@ -11,7 +11,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class Page {
 
+    protected final SelenideElement cookieConsentAcceptButton = $("[data-ui=cookie-consent-accept]");
     private final SelenideElement page = $("#page");
+
+    @Step("Accept cookie")
+    public Page acceptCookie() {
+        cookieConsentAcceptButton.click();
+
+        return this;
+    }
 
     @Step("Check that page contains text = {pageText}")
     protected void checkTextOnPage(String pageText) {

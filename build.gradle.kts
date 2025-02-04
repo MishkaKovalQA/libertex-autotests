@@ -28,6 +28,7 @@ repositories {
 dependencies {
     testImplementation("com.codeborne:selenide:7.6.1")
     implementation("io.qameta.allure:allure-selenide:2.29.1")
+    implementation("io.qameta.allure:allure-assertj:2.29.1")
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
     testImplementation("ch.qos.logback:logback-classic:1.5.16")

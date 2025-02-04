@@ -5,41 +5,24 @@ import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.ex.UIAssertionError;
 import io.qameta.allure.Step;
 import lombok.extern.slf4j.Slf4j;
-import ui.pages.Page;
+import ui.components.CookieConsentComponent;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
 import static com.codeborne.selenide.CollectionCondition.*;
 import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Selenide.*;
 
 @Slf4j
-public class CareersPage extends Page {
+public class CareersPage {
 
-    private final SelenideElement careerPageContent = $("[data-ui=careers-page-content]");
     private final SelenideElement searchJobInput = $("input[data-ui=search-jobs]");
     private final ElementsCollection jobResults = $$("li[data-ui=job-opening]");
     private final ElementsCollection jobName = $$("[data-id=job-item]");
-    private final SelenideElement jobLocation = $("[data-id=job-location]");
     private final SelenideElement clearFiltersButton = $("[data-ui=clear-filters]");
     private final SelenideElement locationFilterInput = $("#locations-filter_input");
     private final SelenideElement locationFilterListbox = $("#locations-filter_listbox");
-
-    private final SelenideElement jobTitle = $("[data-ui=job-title]");
-    private final List<String> jobOverviewElements = List.of("Description", "Requirements", "Benefits");
-
-    private final SelenideElement applicationFormTab = $("[data-ui=application-form-tab]");
-    private final SelenideElement clearButton = $("[data-ui=clear-section-0]");
-    private final SelenideElement firstName = $("#firstname");
-    private final SelenideElement lastName = $("#lastname");
-    private final SelenideElement email = $("#email");
-    private final SelenideElement phone = $("[name=phone]");
-    private final SelenideElement avatarUpload = $("[data-ui=avatar]");
-    private final SelenideElement cropImageButton = $("[data-ui=crop-image]");
-    private final SelenideElement uploadedImagePreview = $("[data-role=preview] img");
-
 
     @Step("Open Careers page")
     public CareersPage openCareersPage() {
@@ -51,11 +34,6 @@ public class CareersPage extends Page {
     @Step("Get name from first job")
     public String getNameFromFirstJob() {
         return jobName.first().getOwnText();
-    }
-
-    @Step("Opened job title should be the same as in search results")
-    public void checkJobTitleHaveSameTitle(String jobName) {
-        jobTitle.shouldHave(text(jobName));
     }
 
     @Step("Get current job count for the first time when career page is loaded")
@@ -95,7 +73,6 @@ public class CareersPage extends Page {
 
     @Step("Clear filters")
     public CareersPage clearFilters() {
-        checkClearButtonEnabled();
         clearFiltersButton.shouldBe(visible).click();
         verifyClearFiltersButtonNotVisible();
 
@@ -132,79 +109,7 @@ public class CareersPage extends Page {
         throw new NoSuchElementException("Not found any job!");
     }
 
-    @Step("Verify job overview contains required elements")
-    public CareersPage verifyJobOverviewElements() {
-        jobOverviewElements.forEach(element ->
-                careerPageContent.shouldHave(text(element)));
-
-        return this;
-    }
-
-    @Step("Open job application form")
-    public CareersPage openApplicationForm() {
-        applicationFormTab.click();
-
-        return this;
-    }
-
-    @Step("Check that clear button is disabled")
-    public CareersPage checkClearButtonDisabled() {
-        clearButton.shouldHave(attribute("aria-disabled", "true"));
-
-        return this;
-    }
-
-    @Step("Fill out application form")
-    public CareersPage fillPersonalInformationForm() {
-        firstName.setValue("abc");
-        lastName.setValue("def");
-        email.setValue("def@gmail.com");
-        phone.setValue("9538024156");
-
-        var avatar = "kitten.jpg";
-        uploadAvatar(avatar);
-        verifyUploadedFile(avatar);
-
-        return this;
-    }
-
-    @Step("Upload avatar file: {filePath}")
-    public CareersPage uploadAvatar(String filePath) {
-        avatarUpload.uploadFromClasspath(filePath);
-        cropImageButton.click();
-
-        return this;
-    }
-
-    @Step("Verify uploaded file is visible: {fileName}")
-    public CareersPage verifyUploadedFile(String fileName) {
-        uploadedImagePreview.shouldBe(visible)
-                .shouldHave(attribute("alt", fileName));
-
-        return this;
-    }
-
-    @Step("Check that clear button is enabled")
-    public CareersPage checkClearButtonEnabled() {
-        clearButton.shouldNotHave(attribute("aria-disabled", "true"));
-
-        return this;
-    }
-
-    @Step("Click clear button")
-    public CareersPage clearFormByClearButton() {
-        clearButton.click();
-
-        return this;
-    }
-
-    @Step("Verify form fields are cleared")
-    public CareersPage verifyFormCleared() {
-        firstName.shouldBe(empty);
-        lastName.shouldBe(empty);
-        email.shouldBe(empty);
-        phone.shouldBe(empty);
-
-        return this;
+    public void acceptCookie() {
+        new CookieConsentComponent().acceptCookie();
     }
 }

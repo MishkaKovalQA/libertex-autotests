@@ -8,8 +8,10 @@ import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Configuration.baseUrl;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
+import static java.util.Objects.requireNonNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
-public class MainPage extends Page {
+public class MainPage {
 
     public static final String TITLE = "Online Forex Trading | Trade For More | Trusted, Regulated Broker - Libertex";
 
@@ -72,7 +74,8 @@ public class MainPage extends Page {
 
     @Step("Check that main page has the title = " + TITLE)
     public MainPage checkTitle() {
-        checkTheTitle(TITLE);
+        var actualTitle = requireNonNull(title()).replaceAll("\\p{C}", "");
+        assertThat(actualTitle).isEqualTo(TITLE);
 
         return this;
     }

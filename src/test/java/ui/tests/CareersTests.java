@@ -12,8 +12,6 @@ public class CareersTests extends TestBase {
                 .acceptCookie();
     }
 
-//todo test check careerPageContent
-
     @Test
     @DisplayName("Filtering jobs by location should update job count and allow clearing filters")
     void filteringJobsShouldUpdateJobsCountAndBeResettableTest() {
@@ -30,24 +28,28 @@ public class CareersTests extends TestBase {
     @DisplayName("Check that job title remains the same after opening the job details page")
     void nameOfJobShouldBeTheSameAfterOpeningTest() {
         var expectedJobName = careersPage.getNameFromFirstJob();
-        careersPage.openFirstJob()
-                .verifyJobOverviewElements()
+        careersPage.openFirstJob();
+
+        jobOverviewPage.verifyJobOverviewElements()
                 .checkJobTitleHaveSameTitle(expectedJobName);
     }
 
     @Test
     @DisplayName("Job application page should contain all required elements")
     void jobApplicationPageShouldContainRequiredElementsTest() {
-        careersPage.openFirstJob()
-                .verifyJobOverviewElements();
+        careersPage.openFirstJob();
+
+        jobOverviewPage.verifyJobOverviewElements();
     }
 
     @Test
     @DisplayName("Verify clearing the application form results in reset state")
     void shouldClearResultsInJobApplicationTest() {
-        careersPage.openFirstJob()
-                .openApplicationForm()
-                .checkClearButtonDisabled()
+        careersPage.openFirstJob();
+
+        jobOverviewPage.openApplicationForm();
+
+        jobApplicationPage.checkClearButtonDisabled()
                 .fillPersonalInformationForm()
                 .clearFormByClearButton()
                 .checkClearButtonDisabled()

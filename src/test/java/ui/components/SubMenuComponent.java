@@ -23,6 +23,7 @@ public class SubMenuComponent {
                         .findBy(text(text))
                         .shouldBe(visible)
         );
+
         return this;
     }
 }

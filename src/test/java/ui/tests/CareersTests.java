@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import static ui.constants.Tags.CAREERS_PAGE_TESTS;
 
 @Tag(CAREERS_PAGE_TESTS)
-public class CareersTests extends TestBase {
+class CareersTests extends TestBase {
 
     @BeforeEach
     void beforeEach() {

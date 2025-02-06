@@ -15,7 +15,7 @@ import static ui.constants.Tags.SMOKE_TESTS;
 import static ui.helpers.Utils.fetchBrowserLogs;
 
 @Tag(MAIN_PAGE_TESTS)
-public class MainPageTests extends TestBase {
+class MainPageTests extends TestBase {
 
     @Tag(SMOKE_TESTS)
     @Test

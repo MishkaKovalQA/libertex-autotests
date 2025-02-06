@@ -1,6 +1,7 @@
 package ui.tests;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -9,10 +10,14 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static ui.constants.BrowserErrorLevel.ERROR;
+import static ui.constants.Tags.MAIN_PAGE_TESTS;
+import static ui.constants.Tags.SMOKE_TESTS;
 import static ui.helpers.Utils.fetchBrowserLogs;
 
+@Tag(MAIN_PAGE_TESTS)
 public class MainPageTests extends TestBase {
 
+    @Tag(SMOKE_TESTS)
     @Test
     @DisplayName("Check all main page elements (logo, buttons, language switcher, etc.)")
     void mainPageShouldHaveCorrectMainElementsTest() {

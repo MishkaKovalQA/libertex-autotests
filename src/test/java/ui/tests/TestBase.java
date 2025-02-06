@@ -3,13 +3,16 @@ package ui.tests;
 import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Tag;
 import ui.pages.careers.CareersPage;
 import ui.pages.MainPage;
 import ui.pages.careers.JobApplicationPage;
 import ui.pages.careers.JobOverviewPage;
 
 import static com.codeborne.selenide.Selenide.*;
+import static ui.constants.Tags.REGRESS_TESTS;
 
+@Tag(REGRESS_TESTS)
 public class TestBase {
 
     MainPage mainPage = new MainPage();

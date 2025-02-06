@@ -2,8 +2,12 @@ package ui.tests;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+import static ui.constants.Tags.CAREERS_PAGE_TESTS;
+
+@Tag(CAREERS_PAGE_TESTS)
 public class CareersTests extends TestBase {
 
     @BeforeEach

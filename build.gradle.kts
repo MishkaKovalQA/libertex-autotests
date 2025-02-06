@@ -41,7 +41,7 @@ dependencies {
 }
 
 tasks.withType<Test> {
-    systemProperty("user.timezone", "GMT+2")
+    systemProperty("user.timezone", "GMT+1")
     systemProperty("user.language", "en")
     systemProperty("user.country", "ME")
     useJUnitPlatform {

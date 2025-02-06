@@ -1,11 +1,11 @@
 package ui.tests;
 
-import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
+import ui.config.SelenideConfigProvider;
 import ui.helpers.Attachments;
 import ui.pages.careers.CareersPage;
 import ui.pages.MainPage;
@@ -23,15 +23,11 @@ class TestBase {
     JobOverviewPage jobOverviewPage = new JobOverviewPage();
     JobApplicationPage jobApplicationPage = new JobApplicationPage();
 
-    private static final String ENVIRONMENT = System.getProperty("env");
+    private static final String ENV = System.getProperty("env", "local");
 
     @BeforeAll
     static void setUp() {
-        Configuration.baseUrl = "https://libertex.org/";
-        Configuration.pageLoadStrategy = "eager";
-        Configuration.browserSize = "1920x1080";
-        Configuration.pageLoadTimeout = 30000;
-        Configuration.timeout = 10000;
+        SelenideConfigProvider.init();
 
         SelenideLogger.addListener("allure", new AllureSelenide());
     }
@@ -41,7 +37,7 @@ class TestBase {
         Attachments.screenshotAs("Last screenshot");
         Attachments.pageSource();
         Attachments.browserConsoleLogs();
-        if (ENVIRONMENT.equals("remote")) {
+        if (ENV.equals("remote")) {
             Attachments.addVideo();
         }
 

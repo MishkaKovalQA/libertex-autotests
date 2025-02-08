@@ -81,8 +81,8 @@ jobs:
           echo "Waiting for Selenoid to start..."
           SECONDS=0
           while ! curl -s http://localhost:4444/status | jq -e '.browsers.chrome.versions | length > 0' > /dev/null; do
-            if [ $SECONDS -ge 60 ]; then
-              echo "❌ Selenoid did not start in 60 seconds!"
+            if [ $SECONDS -ge 10 ]; then
+              echo "❌ Selenoid did not start in 10 seconds!"
               docker logs selenoid
               exit 1
             fi

@@ -17,4 +17,8 @@ public interface SelenideConfig extends Config {
 
     @Key("remoteUrl")
     String getRemoteUrl();
+
+    @Key("browserVersion")
+    @DefaultValue("126.0")
+    String getBrowserVersion();
 }

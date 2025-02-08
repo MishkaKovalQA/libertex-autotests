@@ -10,17 +10,9 @@ public class SelenideConfigProvider {
 
     public static final String ENV = System.getProperty("env", "local");
 
-    public static void init() {
-        InstanceHolder.instance.configureSelenide();
-    }
-
-    private SelenideConfigProvider() {
+    public SelenideConfigProvider() {
         this.config = ConfigFactory.create(SelenideConfig.class, System.getProperties());
         configureSelenide();
-    }
-
-    private static final class InstanceHolder {
-        private static final SelenideConfigProvider instance = new SelenideConfigProvider();
     }
 
     private void configureSelenide() {
@@ -35,11 +27,10 @@ public class SelenideConfigProvider {
 
         Configuration.baseUrl = config.getBaseUrl();
         Configuration.remote = config.getRemoteUrl();
+        Configuration.browserVersion = config.getBrowserVersion();
         Configuration.pageLoadStrategy = "eager";
         Configuration.pageLoadTimeout = 30000;
         Configuration.timeout = 10000;
-
-        System.setProperty("chromeoptions.args", "--remote-allow-origins=* --user-data-dir=/tmp/chrome-user-data-" + System.currentTimeMillis());
 
         if (ENV.equals("remote")) {
             DesiredCapabilities capabilities = new DesiredCapabilities();

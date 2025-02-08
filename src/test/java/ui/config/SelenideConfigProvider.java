@@ -41,8 +41,6 @@ public class SelenideConfigProvider {
             DesiredCapabilities capabilities = new DesiredCapabilities();
             capabilities.setCapability("enableVNC", true);
             capabilities.setCapability("enableVideo", true);
-
-            Configuration.browserCapabilities = capabilities;
         }
     }
 }

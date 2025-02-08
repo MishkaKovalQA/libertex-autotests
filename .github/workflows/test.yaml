@@ -66,14 +66,18 @@ jobs:
             --browsers-config /etc/selenoid/browsers.json \
             --log-output-dir /opt/selenoid/logs
 
+          # Fetch Selenoid logs for troubleshooting
+          docker logs selenoid
+
       # Wait for Selenoid to be ready
       - name: Wait for Selenoid to Be Ready
         run: |
           echo "Waiting for Selenoid to start..."
           SECONDS=0
           while ! curl -s http://localhost:4444/status | jq -e '.browsers.chrome.versions | length > 0' > /dev/null; do
-            if [ $SECONDS -ge 30 ]; then
-              echo "❌ Selenoid did not start in 30 seconds!"
+            if [ $SECONDS -ge 60 ]; then
+              echo "❌ Selenoid did not start in 60 seconds!"
+              docker logs selenoid
               exit 1
             fi
             echo "⏳ Still waiting..."

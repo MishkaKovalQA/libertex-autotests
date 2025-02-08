@@ -26,7 +26,7 @@ repositories {
 }
 
 dependencies {
-    testImplementation("com.codeborne:selenide:7.6.1")
+    testImplementation("com.codeborne:selenide:7.7.1")
     implementation("io.qameta.allure:allure-selenide:2.29.1")
     implementation("io.qameta.allure:allure-assertj:2.29.1")
 

@@ -58,7 +58,12 @@ jobs:
             }
           }' > ~/selenoid/browsers.json
 
+          # Checking the existence of the Docker image first
+          echo "Checking if the Docker image exists..."
+          docker pull selenoid/vnc:chrome_${{ github.event.inputs.browser_version }}
+
           # Start Selenoid container with the generated config
+          echo "Starting the Selenoid container..."
           docker run -d --name selenoid \
             -p 4444:4444 \
             -v ~/selenoid:/etc/selenoid:ro \

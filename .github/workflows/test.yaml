@@ -18,22 +18,48 @@ on:
           Select a browser version to run tests. 
           Example: 133.0, 132.0, etc.
         required: false
-        default: '133.0'
+        default: '128.0'
         type: string
+
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '21'
-      - uses: Xotabu4/selenoid-github-action@v2
+
+      - name: Start Selenoid
+        uses: Xotabu4/selenoid-github-action@v2
+
+      - name: Check available Chrome versions in Selenoid
+        run: |
+          curl -s http://localhost:4444/status | jq '.browsers.chrome.versions'
+
+      - name: Pull required Chrome version for Selenoid
+        run: |
+          docker pull selenoid/vnc:chrome_${{ github.event.inputs.browser_version }}
+
+      - name: Refresh Selenoid browser list
+        run: |
+          curl -X POST "http://localhost:4444/admin/refresh"
+
       - name: Run tests
-        run: ./gradlew clean test -Dselenide.remote=http://localhost:4444/wd/hub -PincludeTags=${{ github.event.inputs.tag }} -Dbrowser_version=${{ github.event.inputs.browser_version }}
+        run: |
+          ./gradlew clean test \
+            -Dselenide.remote=http://localhost:4444/wd/hub \
+            -PincludeTags=${{ github.event.inputs.tag }} \
+            -Pbrowser_version=${{ github.event.inputs.browser_version }}
+
+      - name: Print Selenoid logs (if test fails)
+        if: failure()
+        run: docker logs $(docker ps -q --filter "name=selenoid")
+
       - name: Get Allure history
         uses: actions/checkout@v2
         if: always()
@@ -41,7 +67,8 @@ jobs:
         with:
           ref: gh-pages
           path: gh-pages
-      - name: Generate allure report
+
+      - name: Generate Allure report
         uses: simple-elf/allure-report-action@master
         if: always()
         id: allure-report
@@ -50,7 +77,8 @@ jobs:
           allure_results: build/allure-results
           allure_report: allure-report
           allure_history: allure-history
-      - name: Deploy report to Github Pages
+
+      - name: Deploy report to GitHub Pages
         if: always()
         uses: peaceiris/actions-gh-pages@v2
         env:

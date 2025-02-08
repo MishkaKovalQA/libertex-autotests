@@ -13,89 +13,21 @@ on:
         required: false
         default: 'regress'
         type: string
-      browser_version:
-        description: >
-          Select a browser version to run tests. 
-          Example: 133.0, 132.0, etc.
-        required: false
-        default: '128.0'
-        type: string
 
 jobs:
   test:
     runs-on: ubuntu-latest
-
     steps:
-      # Checkout the code
       - name: Checkout code
         uses: actions/checkout@v4
-
-      # Setup Java
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '21'
-
-      # Set up Selenoid
-      - name: Start Selenoid with Custom Chrome Version
-        run: |
-          echo "Starting Selenoid with Chrome version: ${{ github.event.inputs.browser_version }}"
-
-          # Create a dynamic browsers.json based on the input version
-          mkdir -p ~/selenoid
-          echo '{
-            "chrome": {
-              "default": "'${{ github.event.inputs.browser_version }}'",
-              "versions": {
-                "'${{ github.event.inputs.browser_version }}'": {
-                  "image": "selenoid/vnc:chrome_'${{ github.event.inputs.browser_version }}'",
-                  "port": "4444",
-                  "path": "/",
-                  "tmpfs": { "/tmp": "size=512m" }
-                }
-              }
-            }
-          }' > ~/selenoid/browsers.json
-
-          # Checking the existence of the Docker image first
-          echo "Checking if the Docker image exists..."
-          docker pull selenoid/vnc:chrome_${{ github.event.inputs.browser_version }}
-
-          # Start Selenoid container with the generated config
-          echo "Starting the Selenoid container..."
-          docker run -d --name selenoid \
-          -p 4444:4444 \
-          -v ~/selenoid:/etc/selenoid:ro \
-          -e SELENOID_LOG_LEVEL=DEBUG \
-          aerokube/selenoid:latest-release \
-          -conf /etc/selenoid/browsers.json \
-          -log-output-dir /opt/selenoid/logs 
-
-          # Fetch Selenoid logs for troubleshooting
-          docker logs selenoid
-
-      # Wait for Selenoid to be ready
-      - name: Wait for Selenoid to Be Ready
-        run: |
-          echo "Waiting for Selenoid to start..."
-          SECONDS=0
-          while ! curl -s http://localhost:4444/status | jq -e '.browsers.chrome.versions | length > 0' > /dev/null; do
-            if [ $SECONDS -ge 10 ]; then
-              echo "❌ Selenoid did not start in 10 seconds!"
-              docker logs selenoid
-              exit 1
-            fi
-            echo "⏳ Still waiting..."
-            sleep 2
-          done
-          echo "✅ Selenoid is ready!"
-
-      # Run your tests
+      - uses: Xotabu4/selenoid-github-action@v2
       - name: Run tests
-        run: ./gradlew clean test -Dselenide.remote=http://localhost:4444/wd/hub -PincludeTags=${{ github.event.inputs.tag }} -Dbrowser_version=${{ github.event.inputs.browser_version }}
-
-      # Get Allure history
+        run: ./gradlew clean test -Dselenide.remote=http://localhost:4444/wd/hub -PincludeTags=${{ github.event.inputs.tag }}
       - name: Get Allure history
         uses: actions/checkout@v2
         if: always()
@@ -103,8 +35,6 @@ jobs:
         with:
           ref: gh-pages
           path: gh-pages
-
-      # Generate allure report
       - name: Generate allure report
         uses: simple-elf/allure-report-action@master
         if: always()
@@ -114,8 +44,6 @@ jobs:
           allure_results: build/allure-results
           allure_report: allure-report
           allure_history: allure-history
-
-      # Deploy report to Github Pages
       - name: Deploy report to Github Pages
         if: always()
         uses: peaceiris/actions-gh-pages@v2

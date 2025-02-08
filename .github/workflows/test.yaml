@@ -63,8 +63,8 @@ jobs:
             -p 4444:4444 \
             -v ~/selenoid:/etc/selenoid:ro \
             aerokube/selenoid:latest-release \
-            --browsers-config /etc/selenoid/browsers.json \
-            --log-output-dir /opt/selenoid/logs
+            -conf /etc/selenoid/browsers.json \
+            -log-output-dir /opt/selenoid/logs
 
           # Fetch Selenoid logs for troubleshooting
           docker logs selenoid

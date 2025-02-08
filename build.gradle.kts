@@ -38,6 +38,8 @@ dependencies {
     implementation("com.github.javafaker:javafaker:1.0.2")
 
     implementation("org.aeonbits.owner:owner:1.0.12")
+
+    implementation("io.github.bonigarcia:webdrivermanager:5.9.2")
 }
 
 tasks.withType<Test> {

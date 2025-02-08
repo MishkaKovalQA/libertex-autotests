@@ -1,6 +1,7 @@
 package ui.config;
 
 import com.codeborne.selenide.Configuration;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.aeonbits.owner.ConfigFactory;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -18,9 +19,13 @@ public class SelenideConfigProvider {
     private void configureSelenide() {
         switch (config.getBrowser().toLowerCase()) {
             case "firefox":
+                WebDriverManager.firefoxdriver().setup();
                 Configuration.browser = "firefox";
                 break;
             case "chrome":
+                WebDriverManager.chromedriver().setup();
+                Configuration.browser = "chrome";
+                break;
             default:
                 Configuration.browser = "chrome";
         }

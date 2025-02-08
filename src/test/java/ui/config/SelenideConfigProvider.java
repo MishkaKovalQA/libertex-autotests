@@ -39,6 +39,8 @@ public class SelenideConfigProvider {
         Configuration.pageLoadTimeout = 30000;
         Configuration.timeout = 10000;
 
+        System.setProperty("chromeoptions.args", "--remote-allow-origins=* --user-data-dir=/tmp/chrome-user-data-" + System.currentTimeMillis());
+
         if (ENV.equals("remote")) {
             DesiredCapabilities capabilities = new DesiredCapabilities();
             capabilities.setCapability("enableVNC", true);

@@ -34,7 +34,7 @@ public class SelenideConfigProvider {
         }
 
         Configuration.baseUrl = config.getBaseUrl();
-        Configuration.browserVersion = config.getBrowserVersion();
+        Configuration.browserVersion = System.getProperty("browser_version", config.getBrowserVersion());
         Configuration.remote = config.getRemoteUrl();
         Configuration.pageLoadStrategy = "eager";
         Configuration.pageLoadTimeout = 30000;

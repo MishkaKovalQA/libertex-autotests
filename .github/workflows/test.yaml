@@ -13,6 +13,13 @@ on:
         required: false
         default: 'regress'
         type: string
+      browser_version:
+        description: >
+          Select a browser version to run tests. 
+          Example: 133.0, 132.0, etc.
+          required: false
+          default: '133.0'
+          type: string
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -26,7 +33,7 @@ jobs:
           java-version: '21'
       - uses: Xotabu4/selenoid-github-action@v2
       - name: Run tests
-        run: ./gradlew clean test -Dselenide.remote=http://localhost:4444/wd/hub -PincludeTags=${{ github.event.inputs.tag }}
+        run: ./gradlew clean test -Dselenide.remote=http://localhost:4444/wd/hub -PincludeTags=${{ github.event.inputs.tag }} -Pbrowser.version=${{ github.event.inputs.browser_version }}
       - name: Get Allure history
         uses: actions/checkout@v2
         if: always()

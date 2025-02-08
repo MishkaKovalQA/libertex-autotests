@@ -33,7 +33,7 @@ jobs:
           java-version: '21'
       - uses: Xotabu4/selenoid-github-action@v2
       - name: Run tests
-        run: ./gradlew clean test -Dselenide.remote=http://localhost:4444/wd/hub -PincludeTags=${{ github.event.inputs.tag }} -Pbrowser.version=${{ github.event.inputs.browser_version }}
+        run: ./gradlew clean test -Dselenide.remote=http://localhost:4444/wd/hub -PincludeTags=${{ github.event.inputs.tag }} -Pbrowser_version=${{ github.event.inputs.browser_version }}
       - name: Get Allure history
         uses: actions/checkout@v2
         if: always()

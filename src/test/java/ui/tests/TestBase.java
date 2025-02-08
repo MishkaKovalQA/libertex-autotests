@@ -28,6 +28,7 @@ class TestBase {
     @BeforeAll
     static void setUp() {
         SelenideConfigProvider.init();
+        System.setProperty("chromeoptions.args", "--remote-allow-origins=*");
 
         SelenideLogger.addListener("allure", new AllureSelenide());
     }

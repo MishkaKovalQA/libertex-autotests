@@ -34,20 +34,40 @@ jobs:
           distribution: 'zulu'
           java-version: '21'
 
-      - name: Start Selenoid
-        uses: Xotabu4/selenoid-github-action@v2
-
-      - name: Check available Chrome versions in Selenoid
-        run: |
-          curl -s http://localhost:4444/status | jq '.browsers.chrome.versions'
-
-      - name: Pull required Chrome version for Selenoid
+      - name: Download correct Chrome version
         run: |
           docker pull selenoid/vnc:chrome_${{ github.event.inputs.browser_version }}
 
-      - name: Refresh Selenoid browser list
+      - name: Configure Selenoid browsers.json
         run: |
-          curl -X POST "http://localhost:4444/admin/refresh"
+          mkdir -p ~/selenoid
+          echo '{
+            "chrome": {
+              "default": "${{ github.event.inputs.browser_version }}",
+              "versions": {
+                "${{ github.event.inputs.browser_version }}": {
+                  "image": "selenoid/vnc:chrome_${{ github.event.inputs.browser_version }}",
+                  "port": "4444",
+                  "path": "/",
+                  "tmpfs": { "/tmp": "size=512m" }
+                }
+              }
+            }
+          }' > ~/selenoid/browsers.json
+
+      - name: Start Selenoid
+        run: |
+          docker run -d --name selenoid \
+            -p 4444:4444 \
+            -v ~/selenoid:/etc/selenoid:ro \
+            aerokube/selenoid:latest-release \
+            --browsers-config /etc/selenoid/browsers.json \
+            --log-output-dir /opt/selenoid/logs
+
+      - name: Wait for Selenoid to be ready
+        run: |
+          sleep 5
+          curl -s http://localhost:4444/status | jq '.browsers'
 
       - name: Run tests
         run: |
@@ -58,7 +78,7 @@ jobs:
 
       - name: Print Selenoid logs (if test fails)
         if: failure()
-        run: docker logs $(docker ps -q --filter "name=selenoid")
+        run: docker logs selenoid
 
       - name: Get Allure history
         uses: actions/checkout@v2

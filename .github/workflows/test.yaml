@@ -65,11 +65,12 @@ jobs:
           # Start Selenoid container with the generated config
           echo "Starting the Selenoid container..."
           docker run -d --name selenoid \
-            -p 4444:4444 \
-            -v ~/selenoid:/etc/selenoid:ro \
-            aerokube/selenoid:latest-release \
-            -conf /etc/selenoid/browsers.json \
-            -log-output-dir /opt/selenoid/logs
+          -p 4444:4444 \
+          -v ~/selenoid:/etc/selenoid:ro \
+          -e SELENOID_LOG_LEVEL=DEBUG \
+          aerokube/selenoid:latest-release \
+          -conf /etc/selenoid/browsers.json \
+          -log-output-dir /opt/selenoid/logs 
 
           # Fetch Selenoid logs for troubleshooting
           docker logs selenoid

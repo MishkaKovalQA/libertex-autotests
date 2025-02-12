@@ -8,20 +8,22 @@ import org.junit.jupiter.api.Tag;
 import ui.config.SelenideConfigProvider;
 import ui.helpers.Attachments;
 import ui.pages.careers.CareersPage;
-import ui.pages.MainPage;
+import ui.pages.main.MainPage;
 import ui.pages.careers.JobApplicationPage;
 import ui.pages.careers.JobOverviewPage;
+import ui.pages.main.com.MainComPage;
 
 import static com.codeborne.selenide.Selenide.*;
 import static ui.constants.Tags.REGRESS_TESTS;
 
 @Tag(REGRESS_TESTS)
-class TestBase {
+public class TestBase {
 
-    MainPage mainPage = new MainPage();
-    CareersPage careersPage = new CareersPage();
-    JobOverviewPage jobOverviewPage = new JobOverviewPage();
-    JobApplicationPage jobApplicationPage = new JobApplicationPage();
+    protected MainPage mainPage = new MainPage();
+    protected MainComPage mainComPage = new MainComPage();
+    protected CareersPage careersPage = new CareersPage();
+    protected JobOverviewPage jobOverviewPage = new JobOverviewPage();
+    protected JobApplicationPage jobApplicationPage = new JobApplicationPage();
 
     private static final String ENV = System.getProperty("env", "local");
 

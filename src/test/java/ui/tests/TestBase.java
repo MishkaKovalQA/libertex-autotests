@@ -1,5 +1,6 @@
 package ui.tests;
 
+import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.junit5.BrowserPerTestStrategyExtension;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.Owner;
@@ -7,7 +8,10 @@ import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.extension.ExtendWith;
-import ui.config.SelenideConfigProvider;
+import ui.config.ConfigReader;
+import ui.config.ProjectConfiguration;
+import ui.config.WebConfig;
+import ui.constants.Browser;
 import ui.helpers.Attachments;
 import ui.pages.careers.CareersPage;
 import ui.pages.main.MainPage;
@@ -27,20 +31,24 @@ public class TestBase {
 
     private static final String ENV = System.getProperty("env", "local");
 
+    private static final WebConfig webConfig = ConfigReader.Instance.read();
+    private static final ProjectConfiguration PROJECT = new ProjectConfiguration(webConfig);
+
     @BeforeAll
     static void setUp() {
-        new SelenideConfigProvider();
-
         SelenideLogger.addListener("allure", new AllureSelenide());
+        PROJECT.webConfig();
     }
 
     @AfterEach
     void tearDown() {
         Attachments.screenshotAs("Last screenshot");
         Attachments.pageSource();
-        Attachments.browserConsoleLogs();
-        if (ENV.equals("remote")) {
-            Attachments.addVideo();
+        if (Configuration.browser.equals(Browser.CHROME.name())) {
+            Attachments.browserConsoleLogs();
+        }
+        if (PROJECT.isRemote()) {
+            Attachments.addVideo(PROJECT.getVideoStorageUrl());
         }
     }
 }

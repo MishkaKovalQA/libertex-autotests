@@ -76,12 +76,12 @@ gradle clean test -Denv=remote
 ### ⚙️ Build Parameters
 
 | Parameter           | Description                                   | Default Value |
-|---------------------|-----------------------------------------------|--------------|
-| `BROWSER_NAME`     | Browser to run tests                         | `chrome`     |
-| `BROWSER_VERSION`  | Browser version                              | `126.0`      |
-| `BROWSER_SIZE`     | Browser window size                          | `1920x1080`  |
-| `BASE_URL`         | Application URL                              | -            |
-| `REMOTE_BROWSER_URL` | Remote server address for test execution  | -            |
+|---------------------|-----------------------------------------------|---------------|
+| `BROWSER_NAME`     | Browser to run tests                         | `chrome`      |
+| `BROWSER_VERSION`  | Browser version                              | `133.0`       |
+| `BROWSER_SIZE`     | Browser window size                          | `1920x1080`   |
+| `BASE_URL`         | Application URL                              | -             |
+| `REMOTE_BROWSER_URL` | Remote server address for test execution  | -             |
 
 ---
 

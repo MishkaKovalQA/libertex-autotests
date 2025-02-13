@@ -1,10 +1,12 @@
 package ui.tests;
 
+import com.codeborne.selenide.junit5.BrowserPerTestStrategyExtension;
 import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.Owner;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.extension.ExtendWith;
 import ui.config.SelenideConfigProvider;
 import ui.helpers.Attachments;
 import ui.pages.careers.CareersPage;
@@ -13,10 +15,8 @@ import ui.pages.careers.JobApplicationPage;
 import ui.pages.careers.JobOverviewPage;
 import ui.pages.main.com.MainComPage;
 
-import static com.codeborne.selenide.Selenide.*;
-import static ui.constants.Tags.REGRESS_TESTS;
-
-@Tag(REGRESS_TESTS)
+@ExtendWith({BrowserPerTestStrategyExtension.class})
+@Owner("m.koval")
 public class TestBase {
 
     protected MainPage mainPage = new MainPage();
@@ -42,7 +42,5 @@ public class TestBase {
         if (ENV.equals("remote")) {
             Attachments.addVideo();
         }
-
-        closeWebDriver();
     }
 }

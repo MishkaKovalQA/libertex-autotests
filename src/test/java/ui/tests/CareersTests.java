@@ -1,13 +1,10 @@
 package ui.tests;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
-import static ui.constants.Tags.CAREERS_PAGE_TESTS;
+import static ui.constants.Tags.*;
 
-@Tag(CAREERS_PAGE_TESTS)
+@Tags({@Tag(REGRESS_COM_TESTS), @Tag(REGRESS_ORG_TESTS), @Tag(CAREERS_PAGE_TESTS)})
 class CareersTests extends TestBase {
 
     @BeforeEach

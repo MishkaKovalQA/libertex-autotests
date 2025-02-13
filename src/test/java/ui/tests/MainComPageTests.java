@@ -2,6 +2,7 @@ package ui.tests;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Tags;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -10,18 +11,17 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static ui.constants.BrowserErrorLevel.ERROR;
-import static ui.constants.Tags.MAIN_PAGE_TESTS;
-import static ui.constants.Tags.SMOKE_TESTS;
+import static ui.constants.Tags.*;
 import static ui.helpers.Utils.fetchBrowserLogs;
 
-@Tag(MAIN_PAGE_TESTS)
-class MainPageTests extends TestBase {
+@Tags({@Tag(REGRESS_COM_TESTS), @Tag(MAIN_COM_PAGE_TESTS)})
+class MainComPageTests extends TestBase {
 
     @Tag(SMOKE_TESTS)
     @Test
     @DisplayName("Check all main page elements (logo, buttons, language switcher, etc.)")
     void mainPageShouldHaveCorrectMainElementsTest() {
-        mainPage.openMainPage()
+        mainComPage.openMainPage()
                 .checkLogo()
                 .checkTitle()
                 .checkSignUpButton()
@@ -38,22 +38,24 @@ class MainPageTests extends TestBase {
     public void platformsCheckTest() {
         var platformItems = List.of("Libertex", "MetaTrader 4", "MetaTrader 5");
 
-        mainPage.openMainPage()
+        mainComPage.openMainPage()
                 .openPlatformsSubmenu()
                 .checkItemsVisible(platformItems);
     }
 
     @ParameterizedTest
-    @DisplayName("Check change language via URL for assets widget")
+    @DisplayName("Check change language via URL for menu")
     @CsvSource({
-            "en, Trading Assets",
-            "es, Operación con activos",
-            "vi, Tài sản giao dịch",
-            "cn-tr, 交易資產",
-            "th, สินทรัพย์การเทรด"
+            "en, Platforms",
+            "de, Plattformen",
+            "fr, Platformes",
+            "it, Piattaforme",
+            "nl, Platforms",
+            "pl, Platformy",
+            "pt, Plataformas",
     })
-    void checkTranslationForAssetsWhenChangeUrlTest(String language, String expectedText) {
-        mainPage.openMainPage(language)
-                .checkAssetsWidgetText(expectedText);
+    void checkMenuTranslationWhenChangeUrlTest(String language, String expectedText) {
+        mainComPage.openMainPage(language)
+                .checkTranslationInMenuText(expectedText);
     }
 }

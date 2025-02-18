@@ -19,7 +19,7 @@ class CareersTests extends TestBase {
         var jobsCountBeforeFiltering = careersPage.getStartJobCount();
 
         careersPage.verifyClearFiltersButtonNotVisible()
-                .applyLocationFilter("Serbia, Vojvodina, Belgrade")
+                .applyLocationFilter("Argentina")
                 .checkJobResultsCountShouldBeLessThan(jobsCountBeforeFiltering)
                 .clearFilters()
                 .verifyJobCountIs(jobsCountBeforeFiltering);

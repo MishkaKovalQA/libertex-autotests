@@ -29,15 +29,13 @@ public class TestBase {
     protected JobOverviewPage jobOverviewPage = new JobOverviewPage();
     protected JobApplicationPage jobApplicationPage = new JobApplicationPage();
 
-    private static final String ENV = System.getProperty("env", "local");
-
     private static final WebConfig webConfig = ConfigReader.Instance.read();
-    private static final ProjectConfiguration PROJECT = new ProjectConfiguration(webConfig);
+    private static ProjectConfiguration projectConfiguration = new ProjectConfiguration(webConfig);
 
     @BeforeAll
     static void setUp() {
         SelenideLogger.addListener("allure", new AllureSelenide());
-        PROJECT.webConfig();
+        projectConfiguration.webConfig();
     }
 
     @AfterEach
@@ -47,8 +45,8 @@ public class TestBase {
         if (Configuration.browser.equals(Browser.CHROME.name())) {
             Attachments.browserConsoleLogs();
         }
-        if (PROJECT.isRemote()) {
-            Attachments.addVideo(PROJECT.getVideoStorageUrl());
-        }
+/*        if (projectConfiguration.isRemote()) {
+            Attachments.addVideo(projectConfiguration.getVideoStorageUrl());
+        }*/
     }
 }

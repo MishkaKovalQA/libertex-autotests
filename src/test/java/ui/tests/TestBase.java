@@ -45,8 +45,8 @@ public class TestBase {
         if (Configuration.browser.equals(Browser.CHROME.name())) {
             Attachments.browserConsoleLogs();
         }
-/*        if (projectConfiguration.isRemote()) {
+        if (projectConfiguration.isRemote()) {
             Attachments.addVideo(projectConfiguration.getVideoStorageUrl());
-        }*/
+        }
     }
 }

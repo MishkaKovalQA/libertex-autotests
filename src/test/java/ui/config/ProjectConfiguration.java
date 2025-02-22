@@ -15,6 +15,8 @@ public class ProjectConfiguration {
         Configuration.browser = webConfig.browser().toString();
         Configuration.browserVersion = webConfig.browserVersion();
         Configuration.browserSize = webConfig.browserSize();
+        Configuration.pageLoadTimeout = 60000;
+        Configuration.timeout = 10000;
         if (webConfig.isRemote()) {
             Configuration.remote = webConfig.remoteUrl();
 /*            DesiredCapabilities capabilities = new DesiredCapabilities();

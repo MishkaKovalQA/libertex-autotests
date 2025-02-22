@@ -27,5 +27,5 @@ public class JobApplicationFormDataModel {
     private String phone = faker().phoneNumber().subscriberNumber(10);
 
     @Builder.Default
-    private String avatarFileName = "kitten.jpg";
+    private String resumeFileName = "test_resume.pdf";
 }

@@ -15,9 +15,8 @@ public class JobApplicationPage {
                                   lastNameInput = $("#lastname"),
                                   emailInput = $("#email"),
                                   phoneInput = $("[name=phone]"),
-                                  avatarUpload = $("[data-ui=avatar]"),
-                                  uploadAvatarButton = $("[data-ui=crop-image]"),
-                                  uploadedImagePreview = $("[data-role=preview] img");
+                                  resumeUpload = $("[data-ui=resume]"),
+                                  uploadedResumePreview = $("[data-id=filename]");
 
     @Step("Check that clear button is disabled")
     public JobApplicationPage checkClearButtonDisabled() {
@@ -35,25 +34,23 @@ public class JobApplicationPage {
         emailInput.setValue(formData.getEmail());
         phoneInput.setValue(formData.getPhone());
 
-        var avatar = formData.getAvatarFileName();
-        uploadAvatar(avatar);
-        verifyUploadedFile(avatar);
+        var resume = formData.getResumeFileName();
+        uploadResume(resume);
+        verifyUploadedFile(resume);
 
         return this;
     }
 
-    @Step("Upload avatar file: {filePath}")
-    public JobApplicationPage uploadAvatar(String filePath) {
-        avatarUpload.uploadFromClasspath(filePath);
-        uploadAvatarButton.click();
+    @Step("Upload resume file: {filePath}")
+    public JobApplicationPage uploadResume(String filePath) {
+        resumeUpload.uploadFromClasspath(filePath);
 
         return this;
     }
 
     @Step("Verify uploaded file is visible: {fileName}")
     public JobApplicationPage verifyUploadedFile(String fileName) {
-        uploadedImagePreview.shouldBe(visible)
-                .shouldHave(attribute("alt", fileName));
+        uploadedResumePreview.shouldBe(visible).shouldHave(text(fileName));
 
         return this;
     }

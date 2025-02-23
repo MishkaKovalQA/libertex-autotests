@@ -5,7 +5,7 @@
     "environment": "mishka.qa",
     "comment": "any comment here, @Hors68",
     "reportLink": "https://jenkins.autotests.cloud",
-    "language": "ru",
+    "language": "en",
     "allureFolder": "build/reports/allure-report/allureReport/",
     "enableChart": true,
     "enableSuitesPublishing": false,

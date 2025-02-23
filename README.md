@@ -42,14 +42,14 @@ Automated tests are written in `Java` using `JUnit 5` and `Gradle`. For UI testi
 ### Running Tests Locally
 
 ```
-gradle clean test -Denv=local
+./gradlew clean test -Denv=local
 ```
 
 To override default parameters:
 
 ```
-gradle clean test
--Denv=local
+./gradlew clean test
+-Denv=${ENV}
 -Dbrowser=${BROWSER_NAME}
 -DbrowserVersion=${BROWSER_VERSION}
 -DbrowserSize=${BROWSER_SIZE}
@@ -65,9 +65,9 @@ gradle clean test -Denv=remote
 To override parameters:
 
 ```
-gradle clean test -Denv=remote
--Dbrowser=${BROWSER_NAME}
--DbrowserМersion=${BROWSER_VERSION}
+./gradlew clean test -Denv=remote
+-Dbrowser=${BROWSER}
+-DbrowserVersion=${BROWSER_VERSION}
 -DbrowserSize=${BROWSER_SIZE}
 -DbaseUrl=${BASE_URL}
 -DremoteUrl=${REMOTE_BROWSER_URL}
@@ -75,13 +75,14 @@ gradle clean test -Denv=remote
 
 ### ⚙️ Build Parameters
 
-| Parameter           | Description                                   | Default Value |
-|---------------------|-----------------------------------------------|---------------|
-| `BROWSER_NAME`     | Browser to run tests                         | `chrome`      |
-| `BROWSER_VERSION`  | Browser version                              | `133.0`       |
-| `BROWSER_SIZE`     | Browser window size                          | `1920x1080`   |
-| `BASE_URL`         | Application URL                              | -             |
-| `REMOTE_BROWSER_URL` | Remote server address for test execution  | -             |
+| Parameter        | Description                                  | Default Value                        | Possible options                                |
+|------------------|----------------------------------------------|--------------------------------------|-------------------------------------------------|
+| `ENV`            | Which properties file use in resources/config | `local`                              | `local`, `remote`                               |
+| `BROWSER`        | Browser to run tests                         | `CHROME`                             |                                                 |
+| `BROWSER_VERSION` | Browser version                        | `128.0`                              | `128.0`, `120.0`                                |
+| `BROWSER_SIZE`    | Browser window size                          | `1920x1080`                          |                                                 |
+| `BASE_URL`        | Application URL                              | `https://libertex.org/`              | `https://libertex.org/`, `https://libertex.com/` |
+| `REMOTE_BROWSER_URL`      | Remote server address for test execution     | `http://45.130.214.196:4444/wd/hub/` |                                                 |
 
 ---
 

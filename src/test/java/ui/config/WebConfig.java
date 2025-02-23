@@ -33,9 +33,10 @@ public interface WebConfig extends Config {
     boolean isRemote();
 
     @Key("remoteUrl")
-    @DefaultValue("http://localhost:4444")
+    @DefaultValue("http://45.130.214.196:4444/wd/hub/")
     String remoteUrl();
 
     @Key("videoStorage")
+    @DefaultValue("http://45.130.214.196:4444/video/")
     String videoStorage();
 }

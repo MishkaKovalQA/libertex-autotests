@@ -3,6 +3,8 @@ package ui.config;
 import com.codeborne.selenide.Configuration;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import java.util.Map;
+
 public class ProjectConfiguration {
     private final WebConfig webConfig;
 
@@ -19,10 +21,13 @@ public class ProjectConfiguration {
         Configuration.timeout = 10000;
         if (webConfig.isRemote()) {
             Configuration.remote = webConfig.remoteUrl();
-/*            DesiredCapabilities capabilities = new DesiredCapabilities();
-            capabilities.setCapability("enableVNC", true);
-            capabilities.setCapability("enableVideo", true);
-            Configuration.browserCapabilities = capabilities;*/
+            DesiredCapabilities options = new DesiredCapabilities();
+            options.setCapability("selenoid:options", Map.of(
+                    "enableVNC", true,
+                    "enableVideo", true,
+                    "enableLog", true
+            ));
+            Configuration.browserCapabilities = options;
         }
     }
 
